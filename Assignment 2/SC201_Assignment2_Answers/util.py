@@ -11,9 +11,8 @@ def increment(d1, scale, d2):
     @param scale: float
     @param dict d2: a feature vector.
     """
-    # BEGIN_YOUR_CODE (our solution is 2 lines of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    for key, value in d2.items():
+        d1[key] = d1.get(key, 0) + scale * value
 
 
 ############################################################
@@ -28,9 +27,7 @@ def dotProduct(d1, d2):
     if len(d1) < len(d2):
         return dotProduct(d2, d1)
     else:
-        # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
-        raise Exception("Not implemented yet")
-        # END_YOUR_CODE
+        return sum(d1[key] * d2[key] for key in d1 if key in d2)
 
 
 def readExamples(path):

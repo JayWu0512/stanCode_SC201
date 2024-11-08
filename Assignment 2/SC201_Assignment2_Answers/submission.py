@@ -22,9 +22,12 @@ def extractWordFeatures(x: str) -> FeatureVector:
     @return dict: feature vector representation of x.
     Example: "I am what I am" --> {'I': 2, 'am': 2, 'what': 1}
     """
-    # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    word_list = defaultdict(int)
+
+    for word in x.split():
+        word_list[word] += 1
+
+    return word_list
 
 
 ############################################################
