@@ -27,7 +27,7 @@ def dotProduct(d1, d2):
     if len(d1) < len(d2):
         return dotProduct(d2, d1)
     else:
-        return sum(d1[key] * d2[key] for key in d1 if key in d2)
+        return sum(d1[key] * d2[key] for key in d2 if key in d1)
 
 
 def readExamples(path):

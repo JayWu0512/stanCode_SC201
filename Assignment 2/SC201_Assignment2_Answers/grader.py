@@ -1,7 +1,9 @@
 """
 File: grader.py
 -----------------------------
-Milestone 4 answer: TODO:
+Milestone 4 answer:
+觀察結果：train error持續下降，但validation error會短暫下降後上升。
+判斷原因：在持續train的過程中，模型會越符合丟進去的training模型，但是實際數據不一定完全符合training模型，所以會造成overfitting的現象。
 
 """
 
@@ -80,6 +82,7 @@ def test4a2():
     trainExamples = readExamples('polarity.train')
     validationExamples = readExamples('polarity.dev')
     featureExtractor = submission.extractWordFeatures
+    # featureExtractor = submission.extractCharacterFeatures(4)
     weights = submission.learnPredictor(trainExamples, validationExamples, featureExtractor, numEpochs=40, alpha=0.01)
     outputWeights(weights, 'weights')
     outputErrorAnalysis(validationExamples, featureExtractor, weights, 'error-analysis')  # Use this to debug
@@ -95,7 +98,8 @@ grader.add_basic_part('4a-2', test4a2, max_points=30, max_seconds=45, descriptio
 # Milestone 5: Finishing up
 # TODO: Is there any difference between using extractCharacterFeatures and extractWordFeatures? Why?
 # TODO: Your answer here
-# TODO: ______________________________________________________________________________________
+# TODO: 使用extractCharacterFeatures後，training速度變慢，且training error後來都保持0，validation error也幾乎無變動(到plateau）
+# TODO: 猜測原因是因為overfitting了，且因為計算量變比較大所以速度也降低很多
 ############################################################
 
 ### 5a

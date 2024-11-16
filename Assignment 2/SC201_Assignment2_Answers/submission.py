@@ -22,8 +22,11 @@ def extractWordFeatures(x: str) -> FeatureVector:
     @return dict: feature vector representation of x.
     Example: "I am what I am" --> {'I': 2, 'am': 2, 'what': 1}
     """
+
+    # making empty dict with 0 as default value
     word_list = defaultdict(int)
 
+    # add word into the dict
     for word in x.split():
         word_list[word] += 1
 
@@ -49,9 +52,28 @@ def learnPredictor(trainExamples: List[Tuple[Any, int]], validationExamples: Lis
     """
     weights = {}  # the weight vector
 
-    # BEGIN_YOUR_CODE (our solution is 12 lines of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    # train the model by using classification problem method
+    for epoch in range(numEpochs):
+        for x, y in trainExamples:
+            features = featureExtractor(x)
+            k = dotProduct(features, weights)
+            h = 1 / (1 + math.exp(-k))
+
+            # S.G.D
+            scale = -alpha * (h - (0 if y == -1 else 1))
+            increment(weights, scale, features)
+
+        # predict words is positive or negative ( 1 or -1 )
+        def predictor(x):
+            predict_word = featureExtractor(x)
+            return 1 if dotProduct(predict_word, weights) >= 0 else -1
+
+        # evaluate our prediction with true condition and print it
+        evaluateTrain = evaluatePredictor(trainExamples, predictor)
+        evaluateValidation = evaluatePredictor(validationExamples, predictor)
+        print(f'Training Error: ({epoch}epoch): {evaluateTrain}')
+        print(f'Validation Error: ({epoch}epoch): {evaluateValidation}')
+
     return weights
 
 
@@ -73,9 +95,14 @@ def generateDataset(numExamples: int, weights: WeightVector) -> List[Example]:
         y should be 1 or -1 as classified by the weight vector.
         Note that the weight vector can be arbitrary during testing.
         """
-        # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
-        raise Exception("Not implemented yet")
-        # END_YOUR_CODE
+        # test our data by using words in the weights and fabricating the time these words appear
+        phi = {}
+        for key, value in weights.items():
+            phi[key] = random.randint(1, len(weights))
+
+        # to test our fabricated data ( phi ) is positive or negative
+        y = 1 if dotProduct(phi, weights) >= 0 else -1
+
         return phi, y
 
     return [generateExample() for _ in range(numExamples)]
@@ -93,9 +120,18 @@ def extractCharacterFeatures(n: int) -> Callable[[str], FeatureVector]:
     """
 
     def extract(x: str) -> Dict[str, int]:
-        # BEGIN_YOUR_CODE (our solution is 5 lines of code, but don't worry if you deviate from this)
-        raise Exception("Not implemented yet")
-        # END_YOUR_CODE
+
+        # making empty dict with 0 as default value
+        extract_word = defaultdict(int)
+
+        # delete every space
+        x = "".join(x.split())
+
+        # add every n-gram into the dict
+        for i in range(len(x) - n + 1):
+            extract_word[x[i:i+n]] += 1
+
+        return extract_word
 
     return extract
 
