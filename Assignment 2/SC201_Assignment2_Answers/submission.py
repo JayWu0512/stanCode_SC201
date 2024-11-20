@@ -95,12 +95,12 @@ def generateDataset(numExamples: int, weights: WeightVector) -> List[Example]:
         y should be 1 or -1 as classified by the weight vector.
         Note that the weight vector can be arbitrary during testing.
         """
-        # test our data by using words in the weights and fabricating the time these words appear
+        # test our data by using words in the weights
         phi = {}
         for key, value in weights.items():
             phi[key] = random.randint(1, len(weights))
 
-        # to test our fabricated data ( phi ) is positive or negative
+        # to test our generated data ( phi ) is positive or negative
         y = 1 if dotProduct(phi, weights) >= 0 else -1
 
         return phi, y
